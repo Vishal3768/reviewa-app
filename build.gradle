@@ -1,0 +1,53 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+}
+
+group = 'com.vishal'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+allprojects{
+
+	task mainTask{
+		doFirst{
+			println("Hello first task from all projects");
+		}
+	}
+}
+
+subprojects{
+	task subTask{
+		doFirst{
+			println("Hello second task from subprojects");
+		}
+	}
+}
+
+task third{
+	doFirst{
+		println("Hello World");
+	}
+}
+
+task fourth{
+	dependsOn tasks.third
+	doLast{
+		println("Hello from fourth task");
+	}
+}
