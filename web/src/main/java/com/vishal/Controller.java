@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigInteger;
 import java.util.List;
+
 
 @RestController
 public class Controller {
+
     @Autowired
     Service service;
 
@@ -45,7 +48,7 @@ public class Controller {
     @GetMapping("/get-allEmployees")
     public List<Employee> getAllEmployees(){
         List<Employee> emp=service.getAllEmployees();
-        if(emp.isEmpty()){
+        if(emp==null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return emp;
@@ -56,5 +59,16 @@ public class Controller {
     public void deleteEmployee(@PathVariable int id){
         service.deleteEmployee(id);
     }
+
+    @GetMapping("/get-count")
+    public BigInteger countEmployees(){
+        return service.employeeCount();
+    }
+
+//    @PostMapping("/add-department")
+//    public Department addDepartment(@RequestBody Department department){
+//        service.addDepartment(department);
+//        return department;
+//    }
 }
 

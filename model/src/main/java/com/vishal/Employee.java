@@ -1,21 +1,53 @@
 package com.vishal;
 
-public class Employee {
-    int id;
-    String firstName;
-    String middleName;
-    String lastNamw;
-    String password;
-    String email;
-    int phoneNumber;
-    String address;
+import javax.persistence.*;
+import java.util.List;
 
-    public int getId() {
-        return id;
+@Entity
+@Table(name = "employee")
+public class Employee {
+    @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
+    private int employeeId;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String password;
+    private String email;
+    private int phoneNumber;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name="employee_id",
+            referencedColumnName = "employeeId"
+    )
+    private List<Department> department;
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name="employee_asset_map",
+//            joinColumns = @JoinColumn(name="employee",referencedColumnName = "employeeId"),
+//            inverseJoinColumns = @JoinColumn(name="asset",referencedColumnName = "assetId")
+//    )
+  //  private List<Asset> assets;
+
+    public List<Department> getDepartment() {
+        return department;
     }
 
-    public void setId(int id) {
-        this.id = id;
+
+    public void setDepartment(List<Department> department) {
+        this.department = department;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getFirstName() {
@@ -34,12 +66,12 @@ public class Employee {
         this.middleName = middleName;
     }
 
-    public String getLastNamw() {
-        return lastNamw;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastNamw(String lastNamw) {
-        this.lastNamw = lastNamw;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -66,23 +98,19 @@ public class Employee {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public Employee(int id, String firstName, String middleName, String lastNamw, String password, String email, int phoneNumber, String address) {
-        this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastNamw = lastNamw;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-    }
-
+//    public List<Asset> getAssets() {
+//        return assets;
+//    }
+//
+//    public void setAssets(List<Asset> assets) {
+//        this.assets = assets;
+//    }
 }
